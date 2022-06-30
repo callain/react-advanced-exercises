@@ -66,8 +66,6 @@ const Tetris = () => {
         console.log('GAME OVER!!!');
         setGameOver(true);
         setDropTime(null);
-
-        throw new Error('You lost noob !');
       }
       updatePlayerPos({ x: 0, y: 0, collided: true });
     }
