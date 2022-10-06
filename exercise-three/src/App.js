@@ -11,7 +11,7 @@ import {
 } from './app/valuesSlice';
 
 const ComponentA = () => {
-  const a = useSelector(selectB);
+  const a = useSelector(selectA);
 
   return (
     <div style={{ width: '300px', height: '300px' }}>
