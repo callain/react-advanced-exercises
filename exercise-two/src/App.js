@@ -1,25 +1,48 @@
-import { createContext, memo, useContext, useState, useCallback } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import './App.css';
 
-const MyContext = createContext();
+// const MyContext = createContext();
+const AContext = createContext();
+const BContext = createContext();
 
-const MyContextProvider = ({ children }) => {
+// const MyContextProvider = ({ children }) => {
+//   const [a, setA] = useState(1);
+//   const [b, setB] = useState(2);
+
+//   return (
+//     <MyContext.Provider value={{ a, setA, b, setB }}>
+//       {children}
+//     </MyContext.Provider>
+//   );
+// };
+
+const AContextProvider = ({ children }) => {
   const [a, setA] = useState(1);
-  const [b, setB] = useState(2);
+  //   const [b, setB] = useState(2);
 
-  return (
-    <MyContext.Provider value={{ a, setA, b, setB }}>
-      {children}
-    </MyContext.Provider>
-  );
+  return <AContext.Provider value={{ a, setA }}>{children}</AContext.Provider>;
 };
 
-const useMyContext = () => {
-  return useContext(MyContext);
+const BContextProvider = ({ children }) => {
+  //   const [a, setA] = useState(1);
+  const [b, setB] = useState(2);
+
+  return <BContext.Provider value={{ b, setB }}>{children}</BContext.Provider>;
+};
+
+// const useMyContext = () => {
+//   return useContext(MyContext);
+// };
+const useAContext = () => {
+  return useContext(AContext);
+};
+const useBContext = () => {
+  return useContext(BContext);
 };
 
 const ComponentA = () => {
-  const { a } = useMyContext();
+  //   const { a } = useMyContext();
+  const { a } = useAContext();
   console.log('rerender A');
 
   return (
@@ -30,7 +53,8 @@ const ComponentA = () => {
 };
 
 const ComponentB = () => {
-  const { b } = useMyContext();
+  //   const { b } = useMyContext();
+  const { b } = useBContext();
   console.log('rerender B');
   return (
     <div style={{ width: '300px', height: '300px' }}>
@@ -40,7 +64,8 @@ const ComponentB = () => {
 };
 
 const ButtonA = () => {
-  const { setA } = useMyContext();
+  //   const { setA } = useMyContext();
+  const { setA } = useAContext();
 
   const randomize = useCallback(
     () => setA(Math.floor(Math.random() * 100)),
@@ -51,7 +76,7 @@ const ButtonA = () => {
 };
 
 const ButtonB = () => {
-  const { setB } = useMyContext();
+  const { setB } = useBContext();
 
   const randomize = useCallback(
     () => setB(Math.floor(Math.random() * 100)),
@@ -62,7 +87,9 @@ const ButtonB = () => {
 };
 
 const ButtonRandom = () => {
-  const { setA, setB } = useMyContext();
+  //   const { setA, setB } = useMyContext();
+  const { setA } = useAContext();
+  const { setB } = useBContext();
 
   const randomize = useCallback(() => {
     setA(Math.floor(Math.random() * 100));
@@ -74,13 +101,17 @@ const ButtonRandom = () => {
 
 function App() {
   return (
-    <MyContextProvider>
-      <ComponentA />
-      <ComponentB />
-      <ButtonRandom />
-      <ButtonA />
-      <ButtonB />
-    </MyContextProvider>
+    // <MyContextProvider>
+    <AContextProvider>
+      <BContextProvider>
+        <ComponentA />
+        <ComponentB />
+        <ButtonB />
+        <ButtonRandom />
+        <ButtonA />
+      </BContextProvider>
+    </AContextProvider>
+    // </MyContextProvider>
   );
 }
 

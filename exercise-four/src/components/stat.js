@@ -4,9 +4,9 @@ import Spinner from './spinner';
 import Error from './error';
 
 export default function Stat({ Icon, label, endpoint }) {
-  let { data, error } = useSWR(endpoint);
+  let { data } = useSWR(endpoint, { suspense: true });
 
-  return data ? (
+  return (
     <div className='flex items-center w-full'>
       <div className='shrink-0'>
         <Icon className='w-10 h-10 text-slate-300' />
@@ -30,9 +30,5 @@ export default function Stat({ Icon, label, endpoint }) {
         </div>
       </div>
     </div>
-  ) : error ? (
-    <Error>Could not fetch data.</Error>
-  ) : (
-    <Spinner />
   );
 }

@@ -31,7 +31,7 @@ export function makeServer({ environment = 'test' } = {}) {
         '/savings',
         () => {
           // Force an error
-          // return new Response(500);
+          return new Response(500);
 
           return {
             stat: '$24,581',

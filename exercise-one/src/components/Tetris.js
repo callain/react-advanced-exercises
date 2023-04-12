@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { createStage, checkCollision } from '../gameHelpers';
 import { StyledTetrisWrapper, StyledTetris } from './styles/StyledTetris';
@@ -29,7 +29,6 @@ const Tetris = () => {
       updatePlayerPos({ x: dir, y: 0 });
     }
   };
-
   const keyUp = ({ keyCode }) => {
     if (!gameOver) {
       // Activate the interval again when user releases down arrow.
@@ -39,7 +38,7 @@ const Tetris = () => {
     }
   };
 
-  const startGame = () => {
+  const startGame = useCallback(() => {
     // Reset everything
     setStage(createStage());
     setDropTime(1000);
@@ -48,7 +47,7 @@ const Tetris = () => {
     setLevel(0);
     setRows(0);
     setGameOver(false);
-  };
+  }, [resetPlayer, setLevel, setRows, setScore, setStage]);
 
   const drop = () => {
     // Increase level when player has cleared 10 rows
@@ -102,7 +101,7 @@ const Tetris = () => {
     <StyledTetrisWrapper
       role='button'
       tabIndex='0'
-      onKeyDown={(e) => move(e)}
+      onKeyDown={move}
       onKeyUp={keyUp}
     >
       <StyledTetris>

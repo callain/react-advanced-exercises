@@ -1,3 +1,4 @@
+import { createSelector } from '@reduxjs/toolkit';
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import './App.css';
@@ -84,10 +85,10 @@ function sleep(milliseconds) {
 }
 
 // This function simulate a selector doing a long computation
-const selectTotalSlow = (state) => {
+const selectTotalSlow = createSelector([selectA, selectB], (a, b) => {
   sleep(2000);
-  return selectA(state) + selectB(state);
-};
+  return a + b;
+});
 
 const APlusB = () => {
   console.log('rerender total');
